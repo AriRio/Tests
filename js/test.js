@@ -17,7 +17,8 @@ while (true) {
         break;
     }
     let objektDvouPoli = fillTestValues(userTopic);
-    doTest(objektDvouPoli);
+    let vyhodnoceni = doTest(userTopic, objektDvouPoli);
+    displayResults(vyhodnoceni);
 }
 
 
@@ -26,7 +27,7 @@ function chooseTest() {
     let condition = false;
     let userTopic;
     do {
-        userTopic = prompt(`Rozhodni, z jakého tématu se chceš nechat prozkoušet: 0 - konec; 1 - English Words Fame And Fortune Movies; 2 - English Words Smart Alec Doors; 3 - englishWordsTVShows; 4 - englishWordsKids.`);
+        userTopic = prompt(`Rozhodni, z jakého tématu se chceš nechat prozkoušet: 0 - konec; 1 - English Words Fame And Fortune Movies; 2 - English Words Smart Alec Doors; 3 - English Words TV Shows; 4 - English Words Kids.`);
         if (userTopic == "0" || userTopic == "1" || userTopic == "2" || userTopic == "3" || userTopic == "4") {
             condition = true;
         }
@@ -66,10 +67,12 @@ function fillTestValues(userTopic) {
 }
 
 /*****************************************************************************************************/
-function doTest(objektDvouPoli) {
+function doTest(userTopic, objektDvouPoli) {
 
     let englishWords = objektDvouPoli.englishWords;
     let czechWords = objektDvouPoli.czechWords;
+    let numberOfErrors = 0;
+    let numberOfQuestions = englishWords.length;
 
     for (let i = 0; i < englishWords.length; i++) {
 
@@ -81,6 +84,23 @@ function doTest(objektDvouPoli) {
         }
         else {
             alert(`Chyba. Slovo "${userAnswer}" neodpovídá slovu "${czechWords[i]}" = "${englishWords[i]}".`);
+            numberOfErrors++;
         }
     }
+
+    let vyhodnoceni = {
+        userTopic: userTopic,
+        numberOfQuestions: numberOfQuestions,
+        numberOfErrors: numberOfErrors,
+    };
+    
+    return vyhodnoceni;
+}
+
+
+/*****************************************************************************************************/
+function displayResults(vyhodnoceni){
+    alert(`V testu č. ${vyhodnoceni.userTopic} jsi měl celkem ${vyhodnoceni.numberOfErrors} chybných odpovědí a ${vyhodnoceni.numberOfQuestions-vyhodnoceni.numberOfErrors} správných odpovědí. Tvoje úspěšnost činí ${1-vyhodnoceni.numberOfErrors/vyhodnoceni.numberOfQuestions} %.`);
+    numberOfErrors++;
+
 }
