@@ -10,6 +10,9 @@ const czechWordsTVShows = ["po chvíli", "časopis o slavných osobnostech", "so
 const englishWordsKids = ["clearly", "excuse", "form teacher", "in trouble", "Sorry I'm late.", "these days"];
 const czechWordsKids = ["jasně, zcela zřejmě", "omluva, výmluva", "třídní učitel", "v nesnázích", "Omlouvám se, že jdu pozdě.", "v současnosti"];
 
+let germanWordsFamilie = ["Bruder", "Cousin", "Familie", "Geschwister", "Großmutter", "Großvater", "kennen", "Patchworkfamilie", "Schwester", "Sohn", "Tochter", "tot", "Grosßeltern", "Kind", "lange"];
+
+let czechWordsFamilie = ["bratr", "bratranec", "rodina", "sourozenci", "babička", "dědeček", "vím", "patchworková rodina", "sestra", "syn", "dcera", "mrtvý", "prarodiče", "dítě", "dlouho"];
 
 while (true) {
     let userTopic = chooseTest();
@@ -27,8 +30,8 @@ function chooseTest() {
     let condition = false;
     let userTopic;
     do {
-        userTopic = prompt(`Rozhodni, z jakého tématu se chceš nechat prozkoušet: 0 - konec; 1 - English Words Fame And Fortune Movies; 2 - English Words Smart Alec Doors; 3 - English Words TV Shows; 4 - English Words Kids.`);
-        if (userTopic == "0" || userTopic == "1" || userTopic == "2" || userTopic == "3" || userTopic == "4") {
+        userTopic = prompt(`Rozhodni, z jakého tématu se chceš nechat prozkoušet: 0 - konec; 1 - English Words Fame And Fortune Movies; 2 - English Words Smart Alec Doors; 3 - English Words TV Shows; 4 - English Words Kids; 5 - German Words Familie.`);
+        if (userTopic == "0" || userTopic == "1" || userTopic == "2" || userTopic == "3" || userTopic == "4" || userTopic == "5") {
             condition = true;
         }
     } while (condition == false)
@@ -38,52 +41,55 @@ function chooseTest() {
 /*****************************************************************************************************/
 function fillTestValues(userTopic) {
 
-    let englishWords = [];
+    let translationWords = [];
     let czechWords = [];
 
     switch (userTopic) {
         case "1":
-            englishWords = englishWordsFameAndFortuneMovies;
+            translationWords = englishWordsFameAndFortuneMovies;
             czechWords = czechWordsFameAndFortuneMovies;
             break;
         case "2":
-            englishWords = englishWordsSmartAlecDoors;
+            translationWords = englishWordsSmartAlecDoors;
             czechWords = czechWordsSmartAlecDoors;
             break;
         case "3":
-            englishWords = englishWordsTVShows;
+            translationWords = englishWordsTVShows;
             czechWords = czechWordsTVShows;
             break;
         case "4":
-            englishWords = englishWordsKids;
+            translationWords = englishWordsKids;
             czechWords = czechWordsKids;
             break;
-
+        case "5":
+            translationWords = germanWordsFamilie;
+            czechWords = czechWordsFamilie;
+            break;
         default:
             break;
     }
-    let objektDvouPoli = { englishWords, czechWords };
+    let objektDvouPoli = { translationWords, czechWords };
     return objektDvouPoli;
 }
 
 /*****************************************************************************************************/
 function doTest(userTopic, objektDvouPoli) {
 
-    let englishWords = objektDvouPoli.englishWords;
+    let translationWords = objektDvouPoli.translationWords;
     let czechWords = objektDvouPoli.czechWords;
     let numberOfErrors = 0;
-    let numberOfQuestions = englishWords.length;
+    let numberOfQuestions = translationWords.length;
 
-    for (let i = 0; i < englishWords.length; i++) {
+    for (let i = 0; i < translationWords.length; i++) {
 
-        let userAnswer = prompt(`Přelož mi slovo "${czechWords[i]}" do angličtiny.`);
+        let userAnswer = prompt(`Přelož mi slovo "${czechWords[i]}" do jiného jazyka.`);
 
-        if (userAnswer.toLowerCase() == englishWords[i].toLowerCase()) {
-            alert(`Správně. Slovo "${userAnswer}" odpovídá slovu "${czechWords[i]}" = "${englishWords[i]}".`);
+        if (userAnswer.toLowerCase() == translationWords[i].toLowerCase()) {
+            alert(`Správně. Slovo "${userAnswer}" odpovídá slovu "${czechWords[i]}" = "${translationWords[i]}".`);
             //console.log(userAnswer);
         }
         else {
-            alert(`Chyba. Slovo "${userAnswer}" neodpovídá slovu "${czechWords[i]}" = "${englishWords[i]}".`);
+            alert(`Chyba. Slovo "${userAnswer}" neodpovídá slovu "${czechWords[i]}" = "${translationWords[i]}".`);
             numberOfErrors++;
         }
     }
@@ -93,14 +99,12 @@ function doTest(userTopic, objektDvouPoli) {
         numberOfQuestions: numberOfQuestions,
         numberOfErrors: numberOfErrors,
     };
-    
+
     return vyhodnoceni;
 }
 
 
 /*****************************************************************************************************/
-function displayResults(vyhodnoceni){
-    alert(`V testu č. ${vyhodnoceni.userTopic} jsi měl celkem ${vyhodnoceni.numberOfErrors} chybných odpovědí a ${vyhodnoceni.numberOfQuestions-vyhodnoceni.numberOfErrors} správných odpovědí. Tvoje úspěšnost činí ${1-vyhodnoceni.numberOfErrors/vyhodnoceni.numberOfQuestions} %.`);
-    numberOfErrors++;
-
+function displayResults(vyhodnoceni) {
+    alert(`V testu č. ${vyhodnoceni.userTopic} jsi měl celkem ${vyhodnoceni.numberOfErrors} chybných odpovědí a ${vyhodnoceni.numberOfQuestions - vyhodnoceni.numberOfErrors} správných odpovědí. Tvoje úspěšnost činí ${(1 - vyhodnoceni.numberOfErrors / vyhodnoceni.numberOfQuestions) * 100} %.`);
 }
